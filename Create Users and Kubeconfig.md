@@ -1,4 +1,4 @@
-# Create Kubernetes Users and Kubeconfig 
+# Create Users and Kubeconfig 
 
 - Create user service account and secrets (Admin / Dev user)
 - Create ClusterRole / ClusterroleBingings / Role / Rolebindings
