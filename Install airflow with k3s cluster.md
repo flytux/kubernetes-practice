@@ -12,8 +12,8 @@ curl -sfL https://get.k3s.io | sh -
 
 ```bash
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 chmod +x kubectl && mv kubectl /usr/local/bin
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 ```
 
 ### Check cluster access
