@@ -20,6 +20,7 @@ curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
 ```bash
 # kubeconfig setup for your account
+mkdir ~/.kube
 cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
 # List all pods 
 kubectl get pods -A
