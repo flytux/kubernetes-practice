@@ -1,4 +1,4 @@
-# Create Users and Kubeconfig 
+# Create cluster users and RBAC kubeconfig 
 
 - Create user service account and secrets (Admin / Dev user)
 - Create ClusterRole / ClusterroleBingings / Role / Rolebindings
@@ -112,7 +112,10 @@ metadata:
 apiVersion: v1
 clusters:
 - cluster:
-    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJkekNDQVIyZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQWpNU0V3SHdZRFZRUUREQmhyTTNNdGMyVnkKZG1WeUxXTmhRREUyT1RFek56QXpNemt3SGhjTk1qTXdPREEzTURFd05UTTVXaGNOTXpNd09EQTBNREV3TlRNNQpXakFqTVNFd0h3WURWUVFEREJock0zTXRjMlZ5ZG1WeUxXTmhRREUyT1RFek56QXpNemt3V1RBVEJnY3Foa2pPClBRSUJCZ2dxaGtqT1BRTUJCd05DQUFRTkt0Wjl3VFlvS0JaL1Bubk5FNVVNY0dyTm9ROUxJMmd3SmZaaW40QzcKbThlWTZGWVFPV2FhbE5NYmVSNDN0ejRJNjhhcE1zRjRJZHdCNCtISXlNVE1vMEl3UURBT0JnTlZIUThCQWY4RQpCQU1DQXFRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVS9CTzA0Mm1qYzdJNkRIdlpNa3dxCkhZWTlHOG93Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUlnYjkrbVlueTRDMWorbUk1bXZXc2JYUitIM2E2SmRFZlcKaTZiOUluNWE1V3NDSVFEeW83cFY5emNFWXVZQzRYcXhKc29iTzhSYXAyMHdsTlM3YTJtUm9PTlNTUT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    certificate-authority-data:
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
     server: https://127.0.0.1:6443
   name: local
 contexts:
@@ -126,7 +129,9 @@ preferences: {}
 users:
 - name: kw-admin
   user:
-    token: eyJhbGciOiJSUzI1NiIsImtpZCI6InZBRllwMG43MDAzZ2I2Zjd1VDJIZzhBSkZrbEgyYmZlNF8wbS0zLW9WUm8ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJrdy1hZG1pbi10b2tlbi00d3Q3NyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJrdy1hZG1pbiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjcxZjVlNjVkLWEyMWMtNDQxNC1iNWU5LTNkYmY0NDk3NDczZCIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlLXN5c3RlbTprdy1hZG1pbiJ9.E_Bfy32UbvbEsQ4kypwZHQozLCC6_d-DHuRfX1TicdDvNPoHuYBmHgMqdHSdBkBxG-30vE2xr6nfgqDJm90FTdibxyMZdFmwMSGHP7yk_S-pjD7CKaAFW5X29PQazdIbo2iFvzLwzUsHrUsVpXnIYC4jX9fGDhd1rXnzFW70HTv8_dWy8TxJ0u8z7OSwYtYT6v4WWsFzbvveEdQ7kE1o9h3C9wnujcNropNKmp5Bx0sN8mB2HsiCfB9tEPKF99ZsbXWttpqZsQiohr7BXd6R1D8FzsK1VzyFYyR6PUJOnYo6ARnuaZyIJVI1rXzcAxdXVDck9ZSfn74c_AW5qCP2ow
+    token:
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 ---
 
@@ -137,7 +142,9 @@ users:
 apiVersion: v1
 clusters:
 - cluster:
-    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJkekNDQVIyZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQWpNU0V3SHdZRFZRUUREQmhyTTNNdGMyVnkKZG1WeUxXTmhRREUyT1RFek56QXpNemt3SGhjTk1qTXdPREEzTURFd05UTTVXaGNOTXpNd09EQTBNREV3TlRNNQpXakFqTVNFd0h3WURWUVFEREJock0zTXRjMlZ5ZG1WeUxXTmhRREUyT1RFek56QXpNemt3V1RBVEJnY3Foa2pPClBRSUJCZ2dxaGtqT1BRTUJCd05DQUFRTkt0Wjl3VFlvS0JaL1Bubk5FNVVNY0dyTm9ROUxJMmd3SmZaaW40QzcKbThlWTZGWVFPV2FhbE5NYmVSNDN0ejRJNjhhcE1zRjRJZHdCNCtISXlNVE1vMEl3UURBT0JnTlZIUThCQWY4RQpCQU1DQXFRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVS9CTzA0Mm1qYzdJNkRIdlpNa3dxCkhZWTlHOG93Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUlnYjkrbVlueTRDMWorbUk1bXZXc2JYUitIM2E2SmRFZlcKaTZiOUluNWE1V3NDSVFEeW83cFY5emNFWXVZQzRYcXhKc29iTzhSYXAyMHdsTlM3YTJtUm9PTlNTUT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    certificate-authority-data:
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     server: https://127.0.0.1:6443
   name: local
 contexts:
@@ -151,7 +158,9 @@ preferences: {}
 users:
 - name: kw-dev
   user:
-    token: eyJhbGciOiJSUzI1NiIsImtpZCI6InZBRllwMG43MDAzZ2I2Zjd1VDJIZzhBSkZrbEgyYmZlNF8wbS0zLW9WUm8ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdy1kZXYiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoia3ctZGV2LXRva2VuLXo0cGZqIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6Imt3LWRldiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImMwZjYwMmY4LTAxMWYtNDQ4My1hM2I5LTAwZDEyMDc4NDg0YSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdy1kZXY6a3ctZGV2In0.BnGbOLrlO7AN4QZfYX-l3jxWbJBFZ480oJSaUHOO4BuNZdZ-VqkM1ZEMZwwMt2TRM3QyxVki8NCppT_WhCCl-suj9Oy5Chnj84AitISyTE2Xgc5NQJmPsb0LGhV5jCbT2xs9TYZU07zXz_yE1cdekJ_GR8OqXyQ31BpswpWNSgUuKk3mQtzpCgycdiJNQur4XvfQcWMcHWbIyN_b-vdjBSm-VKd22aRD73fdJPeQ3c9Kb5xY19ZWF1zB08Hv0DLASCvOIzi6s1msLvH0ncIJ32I1OxKOSTv5Agb_mL_O5eRgnKG-BNHHbdyeJTbqvLVeqiqUDcvLTaJ0zFDslxz0FQ
+    token:
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
  k describe secret kw-dev-token-z4pfj -n kw-dev | grep "^token.*" | sed 's/.*:\s*//'
 
