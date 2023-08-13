@@ -3,7 +3,7 @@
 
 ```bash
 
-# SSH login to your VM and Run as root of VM you are to install airflow
+# SSH login to your VM and Run as root of VM to install airflow
 curl -sfL https://get.k3s.io | sh -
 
 ```
