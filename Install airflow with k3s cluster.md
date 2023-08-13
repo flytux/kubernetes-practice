@@ -77,3 +77,6 @@ EOF
 - http://airflow.kw01
 - ID / PWD : admin / admin
 
+---
+
+<img src="airflow-main.png">
