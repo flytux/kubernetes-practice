@@ -42,7 +42,7 @@ helm upgrade -i airflow apache-airflow/airflow -n airflow --set-string "env[0].n
 
 ```bash
 # create airflow ingress to access from your browser
-kubectl -n airflow apply -f - <<"EOF"
+cat <<EOF | kubectl -n airflow apply -f -
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
