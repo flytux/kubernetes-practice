@@ -8,19 +8,26 @@ mkdir -p ~/haproxy/config
 # Create haproxy config file
 cat << EOF >> $HOME/haproxy/config/haproxy.cfg
 defaults
-    log global #<-- Edit these three lines
+    log global
     option tcplog
-    mode http
 
-frontend proxynode #<-- Add the following lines
+frontend http_front
+    mode tcp
     bind *:80
-    stats enable
-    stats uri /stats
-    default_backend kw01-demo
+    default_backend http_back
 
-backend kw01-demo
-    balance roundrobin
-    server kw01-demo 10.78.15.13:80 check # IP : Port of nginx ingress controller
+frontend https_front
+    mode tcp
+    bind *:443
+    default_backend https_back
+
+backend http_back
+    mode tcp
+    server kw01-demo 192.168.121.181:80 check
+
+backend https_back
+    mode tcp
+    server kw01-demo 192.168.121.181:443 check
 EOF
 
 # Run docker container
@@ -29,7 +36,6 @@ docker run -d --name haproxy -p 80:80 -v /root/haproxy/config:/usr/local/etc/hap
 
 # Check connection
 curl localhost
-curl localhost/stats
 
 ```
 
