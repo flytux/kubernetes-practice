@@ -1,7 +1,7 @@
 # Alert Manager to gitlab issues with AM executor
 
-- AM executore from https://github.com/imgix/prometheus-am-executor
-- Alertmanger alerts passed to running script with ENVs
+- AM executor from https://github.com/imgix/prometheus-am-executor
+- Alertmanger alerts values passed to am-exectutor script with ENVs
 
 ```bash
 - AMX_RECEIVER: name of receiver in the AM triggering the alert
