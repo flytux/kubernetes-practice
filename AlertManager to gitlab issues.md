@@ -1,4 +1,4 @@
-# Alert Manager route webhook to AM-Executor
+# Alert Manager to gitlab issues with AM executor
 
 - AM executore from https://github.com/imgix/prometheus-am-executor
 - Alertmanger alerts passed to running script with ENVs
