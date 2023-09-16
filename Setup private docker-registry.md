@@ -11,6 +11,7 @@ cp registry.* /usr/local/share/ca-certificates/
 update-ca-certificates
 
 # Create secret
+kubectl create ns registry
 kubectl create secret tls docker-tls -n registry --cert=registry.crt --key=registry.key
 
 # Install Docker registry
@@ -31,8 +32,10 @@ persistence:
   size: 5Gi
 EOF
 
+cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 helm repo add twuni https://helm.twun.io
-helm upgrade -i docker-registry -f values.yaml twuni/docker-registry
+helm upgrade -i docker-registry -f values.yaml twuni/docker-registry -n registry
    
 # Configure containerd certificate
 cat << EOF >> /etc/rancher/k3s/registries.yaml
@@ -51,9 +54,22 @@ EOF
 systemctl restart k3s
 cat /var/lib/rancher/k3s/agent/etc/containerd/config.toml
 
-wget https://github.com/containerd/nerdctl/releases/download/v1.5.0/nerdctl-1.5.0-linux-amd64.tar.gz
+wget https://github.com/containerd/nerdctl/releases/download/v1.5.0/nerdctl-1.5.0-linux-amd64.tar.gz -O - | tar -xz -C /usr/local/bin
 
 # Login registry
-nerdctl login docker.kw01
+echo "192.168.100.101 docker.kw01" >> /etc/hosts
+mkdir -p /etc/nerdctl
+cat << EOF >> /etc/nerdctl/nerdctl.toml
+debug          = false
+debug_full     = false
+address        = "unix:///run/k3s/containerd/containerd.sock"
+namespace      = "k8s.io"
+snapshotter    = "stargz"
+cgroup_manager = "cgroupfs"
+hosts_dir      = ["/etc/containerd/certs.d", "/etc/docker/certs.d"]
+experimental   = true
+EOF
 
+nerdctl login docker.kw01 # admin / 1
+nerdctl images
 # Apply to other workloads
