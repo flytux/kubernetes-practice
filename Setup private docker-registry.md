@@ -48,6 +48,7 @@ configs:
     tls:
       ca_file: "/usr/local/share/ca-certificates/registry.crt"
       key_file: "/usr/local/share/ca-certificates/registry.key"
+      cert_file: "/usr/local/share/ca-certificates/registry.key"
 EOF
 
 # Restart k3s 
