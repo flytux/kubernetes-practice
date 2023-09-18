@@ -74,3 +74,20 @@ EOF
 nerdctl login docker.kw01 # admin / 1
 nerdctl images
 # Apply to other workloads
+```
+---
+
+```bash
+# Containerd toml config
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+  SystemdCgroup = true
+[plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+[plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.kw01"]
+  endpoint = ["https://docker.kw01"]
+[plugins."io.containerd.grpc.v1.cri".registry.configs."docker.kw01".tls]
+  ca_file = "/usr/local/share/ca-certificates/registry.crt"
+  cert_file = "/usr/local/share/ca-certificates/registry.crt"
+  key_file = "/usr/local/share/ca-certificates/registry.key"
+
+---
