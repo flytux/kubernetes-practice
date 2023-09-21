@@ -7,8 +7,13 @@ openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes -keyout registry.ke
   -subj "/CN=docker.kw01" -addext "subjectAltName=DNS:docker.kw01,DNS:*.kw01,IP:192.168.100.101"
 
 # Register CA cerfificate chain
+Debian/Ubuntu
 cp registry.* /usr/local/share/ca-certificates/
 update-ca-certificates
+
+# Centos
+cp registry.* /etc/pki/ca-trust/source/anchors/
+update-ca-trust
 
 # Create secret
 kubectl create ns registry
@@ -28,7 +33,7 @@ ingress:
         - docker.kw01
 persistence:
   accessMode: 'ReadWriteOnce'
-  enabled: false
+  enabled: true
   size: 5Gi
 EOF
 
@@ -37,7 +42,7 @@ curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 helm repo add twuni https://helm.twun.io
 helm upgrade -i docker-registry -f values.yaml twuni/docker-registry -n registry
    
-# Configure containerd certificate
+# Configure containerd certificate K3S
 cat << EOF >> /etc/rancher/k3s/registries.yaml
 mirrors:
   docker.kw01:
@@ -54,6 +59,30 @@ EOF
 # Restart k3s 
 systemctl restart k3s
 cat /var/lib/rancher/k3s/agent/etc/containerd/config.toml
+
+# Configure containerd certificate Kubeadm
+mkdir -p /etc/containerd
+cat << EOF >> /etc/containerd/config.toml
+[plugins]
+  [plugins."io.containerd.grpc.v1.cri"]
+   [plugins."io.containerd.grpc.v1.cri".containerd]
+      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+          runtime_type = "io.containerd.runc.v2"
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+            SystemdCgroup = true
+      [plugins."io.containerd.grpc.v1.cri".registry]
+        [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+          [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.kw01"]
+            endpoint = ["https://docker.kw01"]
+            [plugins."io.containerd.grpc.v1.cri".registry.configs."docker.kw01".tls]
+            # ubuntu case
+              ca_file = "/usr/local/share/ca-certificates/registry.crt" 
+              cert_file = "/usr/local/share/ca-certificates/registry.crt"
+              key_file = "/usr/local/share/ca-certificates/registry.key"
+EOF
+
+systemctl restard containerd
 
 wget https://github.com/containerd/nerdctl/releases/download/v1.5.0/nerdctl-1.5.0-linux-amd64.tar.gz -O - | tar -xz -C /usr/local/bin
 
@@ -79,15 +108,5 @@ nerdctl images
 
 ```bash
 # Containerd toml config
-
-[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
-  SystemdCgroup = true
-[plugins."io.containerd.grpc.v1.cri".registry.mirrors]
-[plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.kw01"]
-  endpoint = ["https://docker.kw01"]
-[plugins."io.containerd.grpc.v1.cri".registry.configs."docker.kw01".tls]
-  ca_file = "/usr/local/share/ca-certificates/registry.crt"
-  cert_file = "/usr/local/share/ca-certificates/registry.crt"
-  key_file = "/usr/local/share/ca-certificates/registry.key"
 
 ---
