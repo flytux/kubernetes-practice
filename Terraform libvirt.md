@@ -1,7 +1,7 @@
 # Terraform libvirt vm
 
 - Libvirt Provider => Config variables => Cloud init (SSH Key) => OS volume > Network => VM Domain
-
+- Cloud init config [cloud_init.cfg](./cloud_init.cfg)
 ```bash
 
 # Provider
@@ -64,7 +64,7 @@ resource "tls_private_key" "generic-ssh-key" {
   }
 }
 
-# Cloud-init config
+# Cloud-init config 
 data "template_file" "cloud_inits" {
   for_each = var.kubeadm_nodes
   template = file("${path.module}/artifacts/config/cloud_init.cfg")
