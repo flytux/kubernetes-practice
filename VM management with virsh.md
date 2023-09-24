@@ -17,6 +17,11 @@ virt-install --virt-type kvm --name kw01-demo --memory 2048 \
 --location https://debian.osuosl.org/debian/dists/stable/main/installer-amd64/ \
 --os-variant debian10 --graphics none --extra-args='console tty0 console=ttyS0,115200n8 serial'
 
+# storage pool define
+virsh pool-define
+virsh pool-build
+virsh pool-start
+
 # list networks
 virsh net-list --all
 
@@ -42,5 +47,36 @@ iptables -I FORWARD -i virbr1 -o virbr2 -s 10.10.10.0/24 -d 100.100.100.0/24 -m 
 iptables -I FORWARD -i virbr2 -o virbr1 -s 100.100.100.0/24 -d 10.10.10.0/24 -m conntrack --ctstate NEW -j ACCEPT
 
 ping 10.10.10.101 from 100.100.100.101
+```
+
+---
+
+```bash
+If when running Terraform Libvirtd driver you get a permission denied when trying to open a disk image file in /var/lib/libvirtd/images. Here is instructions on to fix that.
+
+Error message will be similar to: “Could not open ‘/var/lib/libvirt/images/disk_image.raw’: Permission denied’)”
+
+Fix:
+
+Please add the following lines for *.qcow and *.raw in file /etc/apparmor.d/libvirt/TEMPLATE.qemu
+
+contents of /etc/apparmor.d/libvirt/TEMPLATE.qemu
+
+#
+# This profile is for the domain whose UUID matches this file.
+#
+
+#include <tunables/global>
+
+profile LIBVIRT_TEMPLATE flags=(attach_disconnected) {
+  #include <abstractions/libvirt-qemu>
+   /var/lib/libvirt/images/**.qcow2 rwk,
+   /var/lib/libvirt/images/**.raw rwk,
+}
+After adding the config file line in /etc/apparmor.d/libvirt/TEMPLATE.qemu please restart the libvirtd systemd service.
+
+Systemd restart libvirtd command
+
+sudo systemctl restart libvirtd
 ```
 
