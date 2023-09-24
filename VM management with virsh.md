@@ -9,6 +9,8 @@ kvm-ok
 # install libvirt
 apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
 
+reboot
+
 # vm install
 virt-install --virt-type kvm --name kw01-demo --memory 2048 \
 --disk path=/var/lib/libvirt/images/kw01-demo.qcow2,size=20 \
