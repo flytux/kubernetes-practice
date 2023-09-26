@@ -18,9 +18,10 @@ virt-install --virt-type kvm --name kw01-demo --memory 2048 \
 --os-variant debian10 --graphics none --extra-args='console tty0 console=ttyS0,115200n8 serial'
 
 # storage pool define
-virsh pool-define
-virsh pool-build
-virsh pool-start
+
+virsh pool-define-as --name default --type dir --target /var/lib/libvirt/images
+virsh pool-autostart default
+virsh pool-start default
 
 # list networks
 virsh net-list --all
