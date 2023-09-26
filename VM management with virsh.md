@@ -71,15 +71,15 @@ systemd restart libvirtd command
 
 ```bash
 
+# Create and revert snapshots
+
 virsh snapshot-create-as --domain kubespray-master-1-101.101.101.101 \
 > --name kubespray-master-1 \
 > --description "Snapshot kubespray"
 
-
 virsh snapshot-create-as --domain kubespray-master-2-101.101.101.102 \
 > --name kubespray-master-2 \
 > --description "Snapshot kubespray"
-
 
 virsh snapshot-create-as --domain kubespray-worker-1-101.101.101.201 \
 > --name kubespray-worker-1 \
