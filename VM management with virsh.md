@@ -90,14 +90,13 @@ virsh snapshot-create-as --domain kubespray-worker-1-101.101.101.201 \
 --name kubespray-worker-1 \
 --description "Snapshot kubespray"
 
-virsh start kubespray-master-1-101.101.101.101
-virsh start kubespray-master-2-101.101.101.102
-virsh start kubespray-worker-1-101.101.101.201
-
-
 virsh snapshot-revert --domain kubespray-master-1-101.101.101.101 --snapshotname kubespray-master-1
 virsh snapshot-revert --domain kubespray-master-2-101.101.101.102 --snapshotname kubespray-master-2
 virsh snapshot-revert --domain kubespray-worker-1-101.101.101.201 --snapshotname kubespray-worker-1
+
+virsh start kubespray-master-1-101.101.101.101
+virsh start kubespray-master-2-101.101.101.102
+virsh start kubespray-worker-1-101.101.101.201
 
 ```
 
