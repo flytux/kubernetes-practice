@@ -2,14 +2,15 @@
 
 ```bash
 # check kvm
-apt install cpu-checker
+sudo apt install cpu-checker
 
 kvm-ok
 
 # install libvirt
-apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
+sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
 
 reboot
+sudo chown -R $USER:libvirt /var/lib/libvirt/
 
 # vm install
 virt-install --virt-type kvm --name kw01-demo --memory 2048 \
