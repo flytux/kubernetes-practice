@@ -65,7 +65,7 @@ systemd restart libvirtd
 ```
 
 ---
-### Terraform apply
+### Create single node cluster for registy and yum repo
 ```bash
 # Clone terraform repo 
 git clone https://github.com/flytux/kubeadm-kb
@@ -81,8 +81,20 @@ terraform init
 terraform plan
 
 terraform apply -auto-approve
+```
 
-# connect deploy k8s cluster to registy cluster
+---
+### Create 3 nodes cluster 
+```bash
+# Connect deploy k8s cluster to registy cluster
 iptables -I FORWARD -i virbr1 -o virbr2 -s 10.10.10.0/24 -d 100.100.100.0/24 -m conntrack --ctstate NEW -j ACCEPT
 iptables -I FORWARD -i virbr2 -o virbr1 -s 100.100.100.0/24 -d 10.10.10.0/24 -m conntrack --ctstate NEW -j ACCEPT
+
+# Create kubeadm cluster
+cd ../deploy
+terraform init
+terraform plan
+
+terraform apply -auto-approve
+
 ```
