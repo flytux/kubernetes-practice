@@ -26,5 +26,4 @@ https://bitbucket.org/wouter29/personify-scim-server/src/master/scim.postman_col
 ```
 ---
 
-```bash
-```
+![Keycloak SCIM config](images/keycloak-scim-config.PNG)
