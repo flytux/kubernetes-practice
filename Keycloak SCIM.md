@@ -187,4 +187,63 @@ RUN  curl https://lab.libreho.st/libre.sh/scim/keycloak-scim/-/jobs/artifacts/ma
 https://lab.libreho.st/libre.sh/scim/keycloak-scim
 
 ```
+---
 
+```bash
+version: "3"
+
+services:
+    rocketchat:
+        image: registry.rocket.chat/rocketchat/rocket.chat:4.8.1
+        command: >
+            bash -c
+              "for i in `seq 1 30`; do
+                node main.js &&
+                s=$$? && break || s=$$?;
+                echo \"Tried $$i times. Waiting 5 secs...\";
+                sleep 5;
+              done; (exit $$s)"
+        restart: unless-stopped
+        volumes:
+            - uploads:/app/uploads
+        environment:
+            - PORT=3000
+            - ROOT_URL=http://localhost:3000
+            - MONGO_URL=mongodb://mongo:27017/rocketchat
+            - MONGO_OPLOG_URL=mongodb://mongo:27017/local
+            # - ADMIN_USERNAME=test
+            # - ADMIN_PASS=test
+            # - ADMIN_EMAIL=test@example.com
+        depends_on:
+            - mongo
+        ports:
+            - 3000:3000
+
+    mongo:
+        image: mongo:4.4
+        restart: unless-stopped
+        volumes:
+            - db:/data/db
+        command: mongod --oplogSize 128 --replSet rs0
+        ports:
+            - 27017:27017
+    mongo-init-replica:
+        image: mongo:4.4
+        command: >
+            bash -c
+              "for i in `seq 1 30`; do
+                mongo mongo/rocketchat --eval \"
+                  rs.initiate({
+                    _id: 'rs0',
+                    members: [ { _id: 0, host: 'localhost:27017' } ]})\" &&
+                s=$$? && break || s=$$?;
+                echo \"Tried $$i times. Waiting 5 secs...\";
+                sleep 5;
+              done; (exit $$s)"
+        depends_on:
+            - mongo
+
+volumes:
+    uploads:
+    db:
+```
