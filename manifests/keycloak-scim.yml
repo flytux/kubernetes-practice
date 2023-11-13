@@ -1,0 +1,138 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: keycloak
+  name: keycloak
+  namespace: keycloak
+spec:
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - command:
+        - /bin/sh
+        - -c
+        - "curl https://lab.libreho.st/libre.sh/scim/keycloak-scim/-/jobs/artifacts/main/raw/build/libs/keycloak-scim-1.0-SNAPSHOT-all.jar?job=package -Lo /opt/keycloak/providers/keycloak-scim-1.0-SNAPSHOT-all.jar; \n /opt/keycloak/bin/kc.sh start-dev"
+        env:
+        - name: KEYCLOAK_ADMIN
+          value: admin
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          value: admin
+        - name: KC_PROXY
+          value: edge
+        image: quay.io/keycloak/keycloak:18.0.0
+        imagePullPolicy: IfNotPresent
+        name: keycloak
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /realms/master
+            port: 8080
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1    
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: personify-scim-server
+  namespace: keycloak
+spec:
+  selector:
+    matchLabels:
+      app: scim-server
+  template:
+    metadata:
+      labels:
+        app: scim-server
+      name: personify-scim-server
+      namespace: keycloak
+    spec:
+      containers:
+      - image: personify/personify-scim-server:2.1.2.RELEASE
+        imagePullPolicy: Always
+        name: personify-scim-server
+        ports:
+        - containerPort: 8080
+          name: svc
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+  namespace: keycloak
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: keycloak
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: personify-scim-server
+  namespace: keycloak
+spec:
+  ports:
+  - name: svc
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: scim-server
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak
+  namespace: keycloak
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: keycloak.kw01
+    http:
+      paths:
+      - backend:
+          service:
+            name: keycloak
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: scim.kw01
+  namespace: keycloak
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: scim.kw01
+    http:
+      paths:
+      - backend:
+          service:
+            name: personify-scim-server
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
