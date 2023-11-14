@@ -20,6 +20,11 @@ RUN  curl https://lab.libreho.st/libre.sh/scim/keycloak-scim/-/jobs/artifacts/ma
 # Keycloak client config
 https://lab.libreho.st/libre.sh/scim/keycloak-scim
 
+http://personify-scim-server:8080/scim/v2
+- Auth mode : BASIC_AUTH
+- Enable refresh during sync : on
+
+
 # SCIM create postman
 https://bitbucket.org/wouter29/personify-scim-server/src/master/scim.postman_collection.json
 
