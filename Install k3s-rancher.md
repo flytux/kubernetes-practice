@@ -41,4 +41,15 @@ EOF
 
 source ~/.bashrc
 source /etc/bash_completion
+
+
+# Disable Rancher Feature CAPI
+cat <<EOF | kubectl apply -f -
+apiVersion: management.cattle.io/v3
+kind: Feature
+metadata:
+  name: embedded-cluster-api
+spec:
+  value: false
+EOF
 ```
