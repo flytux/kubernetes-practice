@@ -3,7 +3,7 @@
 - Check Kube-Scheduler version with match target cluster's kubernetes version
 - Check kubescheduler api version refer (https://v1-27.docs.kubernetes.io/docs/concepts/scheduling-eviction/resource-bin-packing/)
 - Define scoring strategy and resources
-- Deploy to Control-plane node
+- Check kubeconfig path of volume of deployment --kubeconfig=/etc/kubernetes/scheduler.conf
 
 ```bash
 
