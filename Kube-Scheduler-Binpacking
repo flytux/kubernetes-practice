@@ -2,7 +2,8 @@
 ---
 
 ```bash
----
+
+
 # gpu-binpack-scheduler/configmap.yaml
 
 apiVersion: v1
@@ -171,4 +172,5 @@ spec:
           hostPath:
             path: /etc/kubernetes/scheduler.conf
             type: FileOrCreate
+
 ```
