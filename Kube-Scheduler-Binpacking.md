@@ -1,11 +1,13 @@
 ### Kube scheduler Binpacking
----
+
+- Check Kube-Scheduler version with match target cluster's kubernetes version
+- Check kubescheduler api version refer (https://v1-27.docs.kubernetes.io/docs/concepts/scheduling-eviction/resource-bin-packing/)
+- Define scoring strategy and resources
+- Deploy to Control-plane node
 
 ```bash
 
-
 # gpu-binpack-scheduler/configmap.yaml
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
