@@ -15,5 +15,5 @@ spec:
       hostNetwork: true
 EOF  
 
-kubectl patch deployment ingress-nginx-controller --patch-file atch.yml -n ingress-nginx
+kubectl patch deployment ingress-nginx-controller --patch-file patch.yml -n ingress-nginx
 ```
