@@ -1,5 +1,10 @@
 ### Rancher 2.8.0 모니터링 Airgapped 설치
 
+
+- docker registry block
+- 0.0.0.0 index.docker.io auth.docker.io registry-1.docker.io dseasb33srnrn.cloudfront.net production.cloudflare.docker.com
+
+
 - Rancher 모니터링 차트 : 103.0.0+up45.31.1 기준
 
 ---
