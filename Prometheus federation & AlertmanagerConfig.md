@@ -77,10 +77,6 @@ spec:
 
 # Set default values
 name=$RANDOM
-^[[200~#!/bin/bash
-
-# Set default values
-name=$RANDOM
 url='http://alertmanager-operated.cattle-monitoring-system:9093/api/v2/alerts'
 summary='Testing summary!'
 instance="$name.example.net"
@@ -118,5 +114,6 @@ read -p "Press enter to resolve alert"
 
 echo "Sending resolve"
 send_alert "resolved" "$1"
+
 
 ```
