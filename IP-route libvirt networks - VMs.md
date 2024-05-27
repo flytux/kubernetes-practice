@@ -1,4 +1,4 @@
-![image](https://github.com/flytux/kubernetes-practice/ip-route.png)
+![image](./ip-route.png)
 
 
 ---
