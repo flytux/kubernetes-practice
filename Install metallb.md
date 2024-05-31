@@ -20,7 +20,7 @@ EOF
 
 # l2 라우팅 설정
 
-$ cat << EOF > l2advertisement.yaml
+$ cat << EOF > l2advertisement.yml
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
@@ -36,10 +36,9 @@ EOF
 $ kubectl apply -f ./
 
 # ip route 설정
+# 클러스터 노드 네트워크를 통해 metallb IP로 라우팅
 
-클러스터 노드 네트워클 통해 metallb IP로 라우팅
-
-ip route add 10.10.0.0/16 via 192.168.122.1 dev virbr0
+$ ip route add 10.10.0.0/16 via 192.168.122.11 dev virbr0 # cluseter worker node IP
 
 # 샘플 서비스 테스트
 
