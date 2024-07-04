@@ -4,6 +4,22 @@
 4. buld docker and download npm libraries
 
 ```
+#.npmrc
+
+registry=http://192.168.45.245:9000/repository/repos/
+#echo -n "admin:1" | base64 -d
+//192.168.45.245:9000/repository/repos/:_auth="YWRtaW46MQ=="
+
+#.yarnrc
+
+yarn-offline-mirror "./npm_packages"
+yarn-offline-mirror-pruning true
+
+yarn install
+
+
+# rm package-lock.json
+
 # Dockerfile
 FROM node:alpine3.20 AS builder
 WORKDIR /app
