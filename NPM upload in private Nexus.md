@@ -4,51 +4,62 @@
 4. buld docker and download npm libraries
 
 ```
-#.npmrc
+# git clone npm source repo
+$ git clone https://github.com/flytux/CineVisionMicroserviceProject.git
+$ cd CineVisionMicroserviceProject/frontend
 
+#.yarnrc
+cat << EOF >> .yarnrc
+yarn-offline-mirror "./npm_packages"
+yarn-offline-mirror-pruning true
+EOF
+
+#.npmrc
+cat << EOF >> .npmrc
 registry=http://192.168.45.245:9000/repository/repos/
 #echo -n "admin:1" | base64 -d
 //192.168.45.245:9000/repository/repos/:_auth="YWRtaW46MQ=="
+EOF
 
-#.yarnrc
+$ rm package-lock.json
 
-yarn-offline-mirror "./npm_packages"
-yarn-offline-mirror-pruning true
-
-yarn install
-
-
-# rm package-lock.json
-
-# Dockerfile
-FROM node:alpine3.20 AS builder
-WORKDIR /app
-COPY package*.json ./
-
-$ nerdctl build -t npm:builder .
-
-$ nerdctl run -it npm:builder /bin/bash
-
-$ vi .yarnrc
-yarn-offline-mirror "./npm_packages"
-yarn-offline-mirror-pruning true
+nerdctl run -it --name builder -v ${PWD}:/app node:18.13.0-alpine sh
 
 $ yarn install
 
 $ ls -al /root/npm_packages
 
-$ vi publish.sh
+$ cat << EOF >> publish.sh
 #!/bin/bash
 
-REPOSITORY=http://%NEXUS_REPO_URL%
+REPOSITORY=http://192.168.45.245:9000/repository/repos
 PACKAGES_PATH=./npm_packages
 
 for package in $PACKAGES_PATH/*.tgz; do
     npm publish --registry=$REPOSITORY $package
 done
+EOF
 
 $ chmod +x publish.sh
 
 $ ./publish.sh
+
+$ rm -rf node_modules
+
+$ yarn cache clean
+
+$ yarn config set registry http://192.168.45.245:9000/repository/repos/
+
+$ yarn config list
+
+$ yarn install
+
+$ yarn run build
+
+$ yarn start
+
+$ curl -v localhost:3000
+
+
 ```
   
