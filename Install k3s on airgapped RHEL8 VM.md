@@ -23,3 +23,34 @@ curl -sfL https://get.k3s.io > install.sh ; chmod +x install.sh
 INSTALL_K3S_SKIP_DOWNLOAD=true ./install.sh
 
 ```
+
+# Install k3s on airgapped SLE 15 VM
+
+```bash
+
+https://github.com/k3s-io/k3s-selinux # download k3s-selinux policy
+
+zypper in restorecond policycoreutils setools-console 
+zypper ar -f https://download.opensuse.org/repositories/security:/SELinux_legacy/15.5/ SELinux-Legacy
+zypper in selinux-policy-targeted selinux-policy-devel
+
+
+wget https://github.com/k3s-io/k3s/releases/download/v1.30.4%2Bk3s1/k3s ; chmod +x k3s ; mv k3s /usr/local/bin
+wget https://github.com/k3s-io/k3s/releases/download/v1.30.4%2Bk3s1/k3s-airgap-images-amd64.tar
+
+sudo mkdir -p /var/lib/rancher/k3s/agent/images/
+sudo cp ./k3s-airgap-images-amd64.tar.gz /var/lib/rancher/k3s/agent/images/
+curl -sfL https://get.k3s.io > install.sh ; chmod +x install.sh
+
+# Start Master Node
+INSTALL_K3S_EXEC='server --cluster-init' INSTALL_K3S_SKIP_DOWNLOAD=true ./install.sh
+
+cat /var/lib/rancher/k3s/server/token 
+
+# Join Server
+K3S_URL=https://192.168.122.11:6443 K3S_TOKEN=$TOKEN INSTALL_K3S_EXEC='server --cluster-init' INSTALL_K3S_SKIP_DOWNLOAD=true ./install.sh
+
+# Join Agent
+K3S_URL=https://192.168.122.11:6443 K3S_TOKEN=$TOKEN INSTALL_K3S_SKIP_DOWNLOAD=true ./install.sh 
+
+```
