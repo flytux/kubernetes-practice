@@ -22,7 +22,7 @@ metadata:
   name: ingress-nginx
   namespace: ingress-nginx
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - name: http
       port: 80
@@ -32,9 +32,9 @@ spec:
       port: 443
       targetPort: 443
       protocol: TCP
-    - name: proxied-tcp-9000
-      port: 9000
-      targetPort: 9000
+    - name: proxied-tcp-6379
+      port: 6379
+      targetPort: 6379
       protocol: TCP
   selector:
     app.kubernetes.io/name: ingress-nginx
