@@ -54,3 +54,12 @@ K3S_URL=https://192.168.122.11:6443 K3S_TOKEN=$TOKEN INSTALL_K3S_EXEC='server --
 K3S_URL=https://192.168.122.11:6443 K3S_TOKEN=$TOKEN INSTALL_K3S_SKIP_DOWNLOAD=true ./install.sh 
 
 ```
+
+# Create ETCD Snapshots
+
+```
+$ k3s etcd-snapshot save
+
+$ k3s etcd-snapshot save --s3 --s3-endpoint minio.kw01 --s3-skip-ssl-verify --s3-bucket etcd-snapshot --s3-access-key minio --s3-secret-key minio123
+```
+
