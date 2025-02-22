@@ -14,4 +14,5 @@ $ sudo apt install asciinema -y
 $ asciinema rec #file name
 $ asciinema play #file name
 $ agg #file name #gif filename
-
+```
+<img src="images/install.gif" align="left" width="1024"/>
