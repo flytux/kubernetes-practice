@@ -4,9 +4,9 @@
 - Install NFS server
 - Install k3s
 - Install CSI crd
-- Install external CSI snapshotter
 - Install nfs-csi driver
-- Install storageclass, snapshotclass
+- Install storageclass
+- Install external snapshot controller / CRD
 - Test dynamic pv provisioning
 - Test volumesnapshot create and recovery
 
