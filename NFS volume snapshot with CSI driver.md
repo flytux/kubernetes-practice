@@ -30,7 +30,7 @@ $ systemctl start nfs-server
 $ systemctl status nfs-server
 
 $ mkdir -p /nfs/general
-$ mount /var/nfs/general /nfs/general
+$ mount -t nfs 192.168.122.126:/var/nfs/general /nfs/general
 $ df -h | grep nfs
 
 # Install NFS CSI driver
