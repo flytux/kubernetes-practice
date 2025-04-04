@@ -67,8 +67,13 @@ $ kubectl get pvc
 
 # Install CSI CRD
 
-$ git clone https://github.com/kubernetes-csi/external-snapshotter.git
-$ kubectl apply -k external-snapshotter/client/config/crd/
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/v6.0.1/client/config/crd/snapshot.storage.k8s.io_volumesnapshotclasses.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/v6.0.1/client/config/crd/snapshot.storage.k8s.io_volumesnapshotcontents.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/v6.0.1/client/config/crd/snapshot.storage.k8s.io_volumesnapshots.yaml
+
+# Install CSI Snapshot Controller
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/v6.0.1/deploy/kubernetes/snapshot-controller/rbac-snapshot-controller.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/v6.0.1/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml
 
 # Create nginx with volume
 cat <<EOF > nfs-nginx.yml
@@ -117,6 +122,18 @@ spec:
         - name: nfs
           persistentVolumeClaim:
             claimName: pvc-deployment-nfs
+EOF
+
+# Create snapshotclass
+
+cat <<EOF > vsc.yml
+---
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: nfs-snapshot-class
+driver: nfs.csi.k8s.io
+deletionPolicy: Delete
 EOF
 
 # Create snapshot
