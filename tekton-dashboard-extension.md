@@ -20,14 +20,18 @@ kubectl apply -f - <<EOF
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: tekton-dashboard-cronjobs-extension
+  name: tekton-dashboard-daemonset-extension
   labels:
     rbac.dashboard.tekton.dev/aggregate-to-dashboard: "true"
 rules:
   - apiGroups: ["batch"]
     resources: ["cronjobs"]
     verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["daemonsets"]
+    verbs: ["get", "list", "watch"]
 EOF
+
 
 # 리소스 명을 정확하게 쓰지 않으면 권한 또는 목록 조회 오류 발생 가능
 ex) daemonset > daemonsets
