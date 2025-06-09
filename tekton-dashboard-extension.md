@@ -36,6 +36,6 @@ EOF
 # 리소스 명을 정확하게 쓰지 않으면 권한 또는 목록 조회 오류 발생 가능
 ex) daemonset > daemonsets
 
-kubectl api-resources | grep deamonsets
+kubectl api-resources | grep daemonsets
  
 ```
