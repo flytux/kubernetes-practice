@@ -21,6 +21,8 @@ kubeadm init phase certs apiserver --config kubeadm.yaml
 6) kubeapi server 재기동
 nerdctl kill $(nerdctl ps | grep api | grep -v pause | cut -d ' ' -f 1)
 
+nerdctl logs $(nerdctl ps | grep api | grep -v pause | cut -d ' ' -f 1)
+
 7) kube-config 업로드
 kubeadm init phase upload-config kubeadm --config kubeadm.yaml
 ```
