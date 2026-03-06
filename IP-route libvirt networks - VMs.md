@@ -5,4 +5,8 @@
 ```
 $ ip route add 192.168.122.0/24 via 192.168.45.76 dev enp3s0
 $ iptables -I FORWARD -i enp2s0 -o virbr0 -s 192.168.45.0/24 -d 192.168.122.0/24 -m conntrack --ctstate NEW -j ACCEPT
+
+
+# windows client
+route -p add 192.168.122.0 mask 255.255.255.0 192.168.45.76
 ```
